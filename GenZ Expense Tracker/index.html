@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+💸 Expense Tracker
+</title>
+
+<link rel="stylesheet"
+href="style.css">
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- HEADER -->
+
+<header>
+
+<h1>
+
+💸 Expense Tracker
+
+</h1>
+
+<div class="header-right">
+
+<p id="userEmail">
+
+Not Logged In
+
+</p>
+
+
+<button id="themeBtn">
+
+🌙
+
+</button>
+
+<button id="logoutBtn">
+
+Logout
+
+</button>
+
+</div>
+
+
+</header>
+
+
+
+<!-- AUTH -->
+
+<div class="auth">
+
+<input
+
+type="email"
+
+id="email"
+
+placeholder="Email"
+
+>
+
+<input
+
+type="password"
+
+id="password"
+
+placeholder="Password"
+
+>
+
+<button onclick="signup()">
+
+Sign Up
+
+</button>
+
+<button onclick="login()">
+
+Login
+
+</button>
+
+</div>
+
+
+
+<!-- SUMMARY CARDS -->
+
+<div class="summary">
+
+<div class="card balance">
+
+<h3>
+
+💰 Balance
+
+</h3>
+
+<h2 id="balance">
+
+₹0
+
+</h2>
+
+</div>
+
+
+<div class="card income">
+
+<h3>
+
+📈 Income
+
+</h3>
+
+<h2 id="income">
+
+₹0
+
+</h2>
+
+</div>
+
+
+<div class="card expense">
+
+<h3>
+
+📉 Expense
+
+</h3>
+
+<h2 id="expense">
+
+₹0
+
+</h2>
+
+</div>
+
+</div>
+
+
+
+<!-- ADD TRANSACTION -->
+
+<div class="add-box">
+
+<h2>
+
+➕ Add Transaction
+
+</h2>
+
+<select id="type">
+
+<option>
+
+Expense
+
+</option>
+
+<option>
+
+Income
+
+</option>
+
+</select>
+
+
+<input
+
+type="number"
+
+id="amount"
+
+placeholder="Amount"
+
+>
+
+
+<select id="category">
+
+<option>
+
+🍕 Food
+
+</option>
+
+<option>
+
+🛍 Shopping
+
+</option>
+
+<option>
+
+✈️ Travel
+
+</option>
+
+<option>
+
+🎮 Gaming
+
+</option>
+
+<option>
+
+🎬 Entertainment
+
+</option>
+
+<option>
+
+💰 Salary
+
+</option>
+
+<option>
+
+📚 Education
+
+</option>
+
+</select>
+
+
+<input
+
+type="date"
+
+id="date"
+
+>
+
+
+<input
+
+type="text"
+
+id="note"
+
+placeholder="Note"
+
+>
+
+
+<button onclick="addTransaction()">
+
+Add Transaction
+
+</button>
+
+</div>
+
+
+
+<!-- SEARCH + FILTER -->
+
+<div class="filters">
+
+<input
+type="text"
+id="search"
+placeholder="🔍 Search"
+onkeyup="renderTransactions()"
+>
+
+<select id="filterCategory">
+
+<option value="All">
+
+All Categories
+
+</option>
+
+<option>
+
+🍕 Food
+
+</option>
+
+<option>
+
+🛍 Shopping
+
+</option>
+
+<option>
+
+✈️ Travel
+
+</option>
+
+<option>
+
+🎮 Gaming
+
+</option>
+
+<option>
+
+🎬 Entertainment
+
+</option>
+
+<option>
+
+💰 Salary
+
+</option>
+
+<option>
+
+📚 Education
+
+</option>
+
+</select>
+
+
+<select id="filterMonth">
+
+<option value="All">
+
+All Months
+
+</option>
+
+<option value="0">
+
+January
+
+</option>
+
+<option value="1">
+
+February
+
+</option>
+
+<option value="2">
+
+March
+
+</option>
+
+<option value="3">
+
+April
+
+</option>
+
+<option value="4">
+
+May
+
+</option>
+
+<option value="5">
+
+June
+
+</option>
+
+<option value="6">
+
+July
+
+</option>
+
+<option value="7">
+
+August
+
+</option>
+
+<option value="8">
+
+September
+
+</option>
+
+<option value="9">
+
+October
+
+</option>
+
+<option value="10">
+
+November
+
+</option>
+
+<option value="11">
+
+December
+
+</option>
+
+</select>
+
+
+<select id="filterYear">
+
+<option value="All">
+
+All Years
+
+</option>
+
+</select>
+
+</div>
+
+
+
+<!-- TRANSACTIONS -->
+
+<div class="transactions">
+
+<h2>
+
+📜 Transactions
+
+</h2>
+
+<ul id="transactionList">
+
+</ul>
+
+</div>
+
+
+
+<!-- EXPORT -->
+
+<div class="export">
+
+<button onclick="downloadPDF()">
+
+📄 Export PDF
+
+</button>
+
+</div>
+
+
+
+<!-- FUTURE FEATURES -->
+
+<div class="future">
+
+<h2>
+
+🔥 Spending Streak
+
+</h2>
+
+<p id="streak">
+
+0 Days
+
+</p>
+
+</div>
+
+
+<div class="future">
+
+<h2>
+
+🏆 Achievements
+
+</h2>
+
+<ul id="achievements">
+
+</ul>
+
+</div>
+
+
+<div class="future">
+
+<h2>
+
+🤖 AI Insights
+
+</h2>
+
+<p id="aiInsight">
+
+No Insights Yet
+
+</p>
+
+</div>
+
+
+<div class="future">
+
+<h2>
+
+😊 Mood Tracker
+
+</h2>
+
+<div class="moods">
+
+<button>
+
+😊
+
+</button>
+
+<button>
+
+😐
+
+</button>
+
+<button>
+
+😭
+
+</button>
+
+<button>
+
+😡
+
+</button>
+
+</div>
+
+</div>
+
+
+<div class="future">
+
+<h2>
+
+✨ Year Wrapped
+
+</h2>
+
+<button>
+
+Generate Wrapped
+
+</button>
+
+</div>
+
+
+
+<!-- PIE CHART -->
+
+<div class="chart-box">
+
+<h2>
+
+📊 Expense Categories
+
+</h2>
+
+<canvas id="pieChart">
+
+</canvas>
+
+</div>
+
+
+
+<!-- BAR CHART -->
+
+<div class="chart-box">
+
+<h2>
+
+📈 Monthly Expenses
+
+</h2>
+
+<canvas id="barChart">
+
+</canvas>
+
+</div>
+
+</div>
+
+
+<script type="module"
+src="script.js">
+
+</script>
+
+</body>
+
+</html>

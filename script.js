@@ -192,8 +192,7 @@ async function loadTasks() {
    DELETE TASK
 ========================= */
 
-window.deleteTask =
-async function(id) {
+window.deleteTask = async function(id) {
 
   await deleteDoc(
     doc(db, "tasks", id)
@@ -207,8 +206,7 @@ async function(id) {
    COMPLETE TASK
 ========================= */
 
-window.toggleComplete =
-async function(id, currentValue) {
+window.toggleComplete = async function(id, currentValue) {
 
   await updateDoc(
     doc(db, "tasks", id),
@@ -225,8 +223,7 @@ async function(id, currentValue) {
    EDIT TASK
 ========================= */
 
-window.editTask =
-async function(id, oldText) {
+window.editTask = async function(id, oldText) {
 
   const newText =
     prompt(
